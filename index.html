@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joseph Krick, Agentic AI &amp; Security Automation</title>
+<meta name="description" content="Joseph Krick builds agentic AI systems and security automation. Twenty years of military service and eight-plus years of civilian technical delivery, now building agent frameworks, NIST compliance evidence collectors, and a security home lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0B1220;
+    --ink-raised: #111A2C;
+    --fog: #E7EBF0;
+    --slate: #8892A6;
+    --verified: #4E9A6B;
+    --verified-bg: rgba(78, 154, 107, 0.12);
+    --pending: #C9942F;
+    --pending-bg: rgba(201, 148, 47, 0.12);
+    --control: #6C8CD5;
+    --border: #22304A;
+    --max: 960px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--fog);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  h1, h2, h3 { font-weight: 600; margin: 0 0 0.5em; }
+  p { margin: 0 0 1em; }
+
+  a {
+    color: var(--control);
+    text-decoration-color: rgba(108, 140, 213, 0.4);
+    text-underline-offset: 3px;
+  }
+  a:hover { text-decoration-color: var(--control); }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--control);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--control);
+    color: var(--ink);
+    padding: 0.75em 1em;
+    z-index: 100;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .skip-link:focus { left: 1em; top: 1em; }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: rgba(11, 18, 32, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0.9em 1.25em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em 1.5em;
+  }
+  .nav-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95em;
+    color: var(--fog);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+  }
+  .nav-links a { color: var(--slate); text-decoration: none; }
+  .nav-links a:hover { color: var(--fog); }
+
+  main { padding-top: var(--nav-height, 64px); }
+
+  section { padding: 4.5em 1.25em; max-width: var(--max); margin: 0 auto; }
+  section > h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75em;
+    margin-bottom: 1.5em;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: calc(100vh - var(--nav-height, 64px));
+    display: flex;
+    align-items: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 3em;
+    width: 100%;
+    align-items: start;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 0.4em;
+  }
+  .hero .tagline {
+    font-size: 1.15rem;
+    color: var(--fog);
+    max-width: 46ch;
+  }
+  .hero .location {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    color: var(--slate);
+    margin-top: 1.5em;
+  }
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25em;
+    margin-top: 1em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9em;
+  }
+
+  .stat-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    border-left: 1px solid var(--border);
+    padding-left: 1.5em;
+  }
+  .stat {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .stat .stat-value {
+    font-size: 1.8rem;
+    color: var(--fog);
+    font-weight: 600;
+    display: block;
+  }
+  .stat .stat-label {
+    font-size: 0.78rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* About */
+  #about p { max-width: 68ch; }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2em;
+  }
+  .skill-group h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95em;
+    color: var(--control);
+    margin-bottom: 0.75em;
+  }
+  .skill-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+  .skill-group li {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8em;
+    background: var(--ink-raised);
+    border: 1px solid var(--border);
+    padding: 0.35em 0.7em;
+    border-radius: 3px;
+    color: var(--fog);
+  }
+
+  /* Projects: evidence-record cards */
+  .record {
+    background: var(--ink-raised);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--slate);
+    border-radius: 4px;
+    padding: 1.75em;
+    margin-bottom: 1.75em;
+  }
+  /* Visible by default. Reveal-on-scroll is opt-in via .js-reveal, which
+     only gets added by script once it's confirmed running, so a page with
+     JS blocked or failing still shows every project description. */
+  .js-reveal .record {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .js-reveal .record.is-visible { opacity: 1; transform: translateY(0); }
+  .record.status-active { border-left-color: var(--verified); }
+  .record.status-progress { border-left-color: var(--pending); }
+
+  .record-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75em;
+    margin-bottom: 0.9em;
+  }
+  .record-head h3 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  .status-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72em;
+    letter-spacing: 0.08em;
+    padding: 0.25em 0.6em;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .status-active .status-badge { color: var(--verified); background: var(--verified-bg); }
+  .status-progress .status-badge { color: var(--pending); background: var(--pending-bg); }
+
+  .record dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.4em 1em;
+    margin: 1em 0 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78em;
+  }
+  .record dt { color: var(--slate); text-transform: uppercase; letter-spacing: 0.05em; }
+  .record dd { margin: 0; color: var(--fog); }
+
+  .record .statement {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.98em;
+    color: var(--fog);
+    margin: 0.75em 0 1em;
+    max-width: 70ch;
+  }
+
+  .record-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82em;
+    margin-top: 0.75em;
+  }
+
+  /* Education */
+  .edu-list, .cert-list {
+    list-style: none;
+    margin: 0 0 2em;
+    padding: 0;
+  }
+  .edu-list li, .cert-list li {
+    padding: 0.9em 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .edu-list .degree, .cert-list .cert-name { color: var(--fog); font-weight: 500; }
+  .edu-list .school, .cert-list .cert-detail {
+    display: block;
+    color: var(--slate);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82em;
+    margin-top: 0.25em;
+  }
+
+  /* Contact */
+  #contact p { max-width: 60ch; }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 1.5em;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2em 1.25em;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78em;
+    color: var(--slate);
+  }
+
+  @media (max-width: 720px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .stat-sidebar {
+      flex-direction: row;
+      flex-wrap: wrap;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      padding-left: 0;
+      padding-top: 1.5em;
+    }
+    .stat { flex: 1 1 30%; }
+  }
+
+  @media (max-width: 400px) {
+    section { padding: 3em 1em; }
+    .hero { padding-top: 1em; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="nav-name" href="#main">Joseph Krick</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-grid">
+      <div>
+        <h1>Joseph Krick</h1>
+        <p class="tagline">I build agentic AI systems and security automation. Twenty years of military service and eight-plus years of civilian technical delivery got me here, not a traditional software engineering path.</p>
+        <div class="hero-links">
+          <a href="mailto:joseph.krick@gmail.com">joseph.krick@gmail.com</a>
+          <a href="https://www.linkedin.com/in/joseph-krick/">linkedin.com/in/joseph-krick</a>
+          <a href="https://github.com/jwkrick">github.com/jwkrick</a>
+        </div>
+        <p class="location">Washington DC metro area</p>
+      </div>
+      <aside class="stat-sidebar" aria-label="Summary">
+        <div class="stat">
+          <span class="stat-value">20+</span>
+          <span class="stat-label">Years, military service</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">8+</span>
+          <span class="stat-label">Years, civilian technical delivery</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Projects running</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-heading">
+    <h2 id="about-heading">About</h2>
+    <p>I served in the Army for over twenty years, active duty through 2018 and in the Army Reserve since. I commanded a headquarters company in a Civil Affairs brigade, ran a CKI section, and deployed to Iraq with an Armor unit earlier in my career.</p>
+    <p>After active duty, I moved into civilian technical delivery. I managed healthcare infrastructure and IT projects under HIPAA at CBRE starting in February 2018, then spent December 2022 to May 2025 as a Senior Agile Product Owner at USAA, running fraud data platforms built on Snowflake, Kafka, and AWS inside a federally regulated environment using SAFe. Since leaving USAA, I've been delivering projects independently, including the work below.</p>
+    <p>I'm now building agentic AI systems and security automation: agent frameworks, scheduled compliance evidence collectors, and a home lab I use to practice the NIST RMF process end to end. I didn't come to this through a traditional software engineering career. The projects below are what I've actually built and what's currently running.</p>
+  </section>
+
+  <section id="skills" aria-labelledby="skills-heading">
+    <h2 id="skills-heading">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Agentic AI &amp; Automation</h3>
+        <ul>
+          <li>Python</li>
+          <li>Agent benchmarking &amp; evaluation</li>
+          <li>Tool calling &amp; dispatch</li>
+          <li>Local LLM inference</li>
+          <li>Anthropic API</li>
+          <li>Benchmark design</li>
+          <li>systemd scheduling</li>
+          <li>Bash</li>
+          <li>git</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Security &amp; Compliance</h3>
+        <ul>
+          <li>NIST SP 800-37 RMF</li>
+          <li>NIST 800-53 control mapping</li>
+          <li>SSP &amp; POA&amp;M authoring</li>
+          <li>Wazuh SIEM</li>
+          <li>MITRE ATT&amp;CK</li>
+          <li>Linux hardening</li>
+          <li>Network segmentation</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Product &amp; Delivery</h3>
+        <ul>
+          <li>Agile product ownership</li>
+          <li>SAFe</li>
+          <li>Data platform delivery (Snowflake, Kafka, AWS)</li>
+          <li>Regulated environment delivery</li>
+          <li>Technical program management</li>
+          <li>Stakeholder communication</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Projects</h2>
+
+    <article class="record status-progress">
+      <div class="record-head">
+        <h3>Ralph: Sandboxed AI Agent on Hermes</h3>
+        <span class="status-badge">IN PROGRESS</span>
+      </div>
+      <p class="statement">I deployed Hermes Agent, an open-source agentic framework, as Ralph: a sandboxed AI agent running in an isolated VirtualBox VM, connected to my local LM Studio inference server. I set up the VM sandboxing, the LM Studio integration, and a persistent Telegram control interface. On top of that I built a five-test benchmark suite with a defined scoring rubric to compare agent behavior across model swaps, later reused to benchmark a separate Claude-based agent against the same local models. I also wrote operating constraints for how the agent works after diagnosing real failure modes: a standing rule against delegating any task under five terminal commands, and a full read-then-full-rewrite file protocol adopted after silent write failures showed up in patch-based edits.</p>
+      <dl>
+        <dt>Stack</dt>
+        <dd>Hermes Agent, LM Studio (OpenAI-compatible endpoint), Telegram Bot API, VirtualBox, Ubuntu, tmux</dd>
+      </dl>
+      <p class="record-links"><span>Write-up in progress, repo link coming once it's sanitized and published.</span></p>
+    </article>
+
+    <article class="record status-active">
+      <div class="record-head">
+        <h3>Atlas RMF Evidence Collection Agent</h3>
+        <span class="status-badge">ACTIVE</span>
+      </div>
+      <p class="statement">A scheduled agent that inventories a Linux host and converts each finding into a NIST 800-53 control implementation statement. Six unprivileged collectors cover Docker inventory, open ports, patch state, user accounts, SSH configuration, and disk encryption, mapped to seven controls. It runs hourly under a sandboxed systemd timer and accumulates evidence in git rather than overwriting it, regenerating a live dashboard from each run's real output. Statement generation started on a local LLM, took 114 minutes per run, and was unreliable, so I replaced it with a deterministic rule engine that completes in under a second with equal or better accuracy and returns NEEDS REVIEW on genuinely undecidable questions instead of fabricating a verdict.</p>
+      <dl>
+        <dt>Controls</dt>
+        <dd>AC-2, IA-5, AC-17, CM-7, CM-8, SI-2, SC-28</dd>
+        <dt>Stack</dt>
+        <dd>Python, systemd timers, Docker, NIST 800-53, git, MkDocs</dd>
+      </dl>
+      <p class="record-links"><a href="https://github.com/jwkrick/atlas-rmf-evidence-collector">github.com/jwkrick/atlas-rmf-evidence-collector</a></p>
+    </article>
+
+    <article class="record status-active">
+      <div class="record-head">
+        <h3>Security Home Lab &amp; RMF Program</h3>
+        <span class="status-badge">ACTIVE</span>
+      </div>
+      <p class="statement">A hardened Ubuntu server with LUKS full-disk encryption, Wazuh SIEM monitoring four endpoints, a Kali and Metasploitable2 attack-defend environment, OpenWrt network segmentation, and a Tailscale mesh VPN. I use it as the system under test for a NIST SP 800-37 RMF program, producing real SSP, POA&amp;M, and continuous monitoring artifacts.</p>
+      <dl>
+        <dt>Framework</dt>
+        <dd>NIST SP 800-37</dd>
+        <dt>Stack</dt>
+        <dd>Ubuntu, Docker, Wazuh, Kali, OpenWrt, Tailscale, LUKS, NIST 800-37</dd>
+      </dl>
+      <p class="record-links">
+        <a href="https://github.com/jwkrick/grc-gap-assessment">github.com/jwkrick/grc-gap-assessment</a>
+        <a href="https://github.com/jwkrick/wazuh-siem-deployment">github.com/jwkrick/wazuh-siem-deployment</a>
+      </p>
+    </article>
+
+  </section>
+
+  <section id="education" aria-labelledby="education-heading">
+    <h2 id="education-heading">Education</h2>
+    <ul class="edu-list">
+      <li>
+        <span class="degree">MBA, Technology Management</span>
+        <span class="school">University of Washington, Foster School of Business, 2022</span>
+      </li>
+      <li>
+        <span class="degree">BS, Electrical Engineering</span>
+        <span class="school">United States Military Academy, West Point, 2008</span>
+      </li>
+    </ul>
+
+    <h3 class="mono" style="font-size:0.85em; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate); margin-bottom:0.75em;">Certifications</h3>
+    <ul class="cert-list">
+      <li>
+        <span class="cert-name">CompTIA Security+ (SY0-701)</span>
+        <span class="cert-detail">Active through May 2029</span>
+      </li>
+      <li>
+        <span class="cert-name">ISC2 Certified in Cybersecurity</span>
+        <span class="cert-detail">Active through April 2029</span>
+      </li>
+      <li>
+        <span class="cert-name">Google IT Support Professional Certificate</span>
+      </li>
+      <li>
+        <span class="cert-name">ABA Certificate in Fraud Prevention</span>
+      </li>
+      <li>
+        <span class="cert-name">CISSP</span>
+        <span class="cert-detail">In progress, exam window December 2026 to January 2027</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-heading">
+    <h2 id="contact-heading">Contact</h2>
+    <p>I'm looking at forward-deployed engineering and applied AI roles, with a secondary track in cybersecurity compliance. Reach me by email or LinkedIn.</p>
+    <div class="contact-links">
+      <a href="mailto:joseph.krick@gmail.com">joseph.krick@gmail.com</a>
+      <a href="https://www.linkedin.com/in/joseph-krick/">linkedin.com/in/joseph-krick</a>
+      <a href="https://github.com/jwkrick">github.com/jwkrick</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Joseph Krick. Washington DC metro area.
+</footer>
+
+<script>
+(function () {
+  var navEl = document.querySelector('.nav');
+  function setNavHeight() {
+    document.documentElement.style.setProperty('--nav-height', navEl.offsetHeight + 'px');
+  }
+  setNavHeight();
+  window.addEventListener('resize', setNavHeight);
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var records = document.querySelectorAll('.record');
+
+  if (reduceMotion || !('IntersectionObserver' in window) || records.length === 0) {
+    return;
+  }
+
+  document.documentElement.classList.add('js-reveal');
+  records.forEach(function (el) { el.classList.remove('is-visible'); });
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  records.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+</body>
+</html>
