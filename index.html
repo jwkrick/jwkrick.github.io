@@ -451,17 +451,17 @@
   <section id="projects" aria-labelledby="projects-heading">
     <h2 id="projects-heading">Projects</h2>
 
-    <article class="record status-progress">
+    <article class="record status-active">
       <div class="record-head">
         <h3>Ralph: Sandboxed AI Agent on Hermes</h3>
-        <span class="status-badge">IN PROGRESS</span>
+        <span class="status-badge">ACTIVE</span>
       </div>
       <p class="statement">I deployed Hermes Agent, an open-source agentic framework, as Ralph: a sandboxed AI agent running in an isolated VirtualBox VM, connected to my local LM Studio inference server. I set up the VM sandboxing, the LM Studio integration, and a persistent Telegram control interface. On top of that I built a five-test benchmark suite with a defined scoring rubric to compare agent behavior across model swaps, later reused to benchmark a separate Claude-based agent against the same local models. I also wrote operating constraints for how the agent works after diagnosing real failure modes: a standing rule against delegating any task under five terminal commands, and a full read-then-full-rewrite file protocol adopted after silent write failures showed up in patch-based edits.</p>
       <dl>
         <dt>Stack</dt>
         <dd>Hermes Agent, LM Studio (OpenAI-compatible endpoint), Telegram Bot API, VirtualBox, Ubuntu, tmux</dd>
       </dl>
-      <p class="record-links"><span>Write-up in progress, repo link coming once it's sanitized and published.</span></p>
+      <p class="record-links"><a href="https://github.com/jwkrick/ralph-hermes-agent">github.com/jwkrick/ralph-hermes-agent</a></p>
     </article>
 
     <article class="record status-active">
