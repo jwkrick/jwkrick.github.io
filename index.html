@@ -114,7 +114,7 @@
 
   main { padding-top: var(--nav-height, 64px); }
 
-  section { padding: 4.5em 1.25em; max-width: var(--max); margin: 0 auto; }
+  section { padding: 2.5em 1.25em; max-width: var(--max); margin: 0 auto; }
   section > h2 {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.85em;
@@ -128,11 +128,11 @@
 
   /* Hero */
   .hero {
-    min-height: calc(100vh - var(--nav-height, 64px));
+    min-height: min(70vh, 560px);
     display: flex;
     align-items: center;
-    padding-top: 2em;
-    padding-bottom: 2em;
+    padding-top: 3em;
+    padding-bottom: 3em;
   }
   .hero-grid {
     display: grid;
@@ -346,8 +346,8 @@
   }
 
   @media (max-width: 400px) {
-    section { padding: 3em 1em; }
-    .hero { padding-top: 1em; }
+    section { padding: 2em 1em; }
+    .hero { padding-top: 1.5em; padding-bottom: 1.5em; }
   }
 </style>
 </head>
