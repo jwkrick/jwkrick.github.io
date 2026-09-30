@@ -453,6 +453,19 @@
 
     <article class="record status-active">
       <div class="record-head">
+        <h3>DNS Tracker Detection</h3>
+        <span class="status-badge">COMPLETE</span>
+      </div>
+      <p class="statement">A classifier that flags tracking domains from the domain name alone, trained on six days of my household's DNS traffic (540,429 queries) with AdGuard Home's block decisions as the labels. I split the data by first-seen date so the test set held only domains the model had never seen, and dropped three log fields that leaked the label. A keyword rule caught 4 of 90 blocked test domains. Logistic regression on six string features caught 38 with 14 false positives; adding character n-grams raised that to 60 with 1 false positive. Splitting the test set by parent domain showed what the model had learned: it caught 56 of 63 trackers from companies it had seen in training and 4 of 27 from new ones. A retrain on newer data held the same pattern (44 of 55 against 2 of 10) with zero false positives, 3 short of my 75% recall target. Raw logs stay on my machine; the repo holds code and aggregate results only.</p>
+      <dl>
+        <dt>Stack</dt>
+        <dd>Python, pandas, scikit-learn (logistic regression, random forest, TF-IDF), Jupyter, AdGuard Home</dd>
+      </dl>
+      <p class="record-links"><a href="https://github.com/jwkrick/dns-tracker-detection">github.com/jwkrick/dns-tracker-detection</a></p>
+    </article>
+
+    <article class="record status-active">
+      <div class="record-head">
         <h3>Ralph: Sandboxed AI Agent on Hermes</h3>
         <span class="status-badge">ACTIVE</span>
       </div>
